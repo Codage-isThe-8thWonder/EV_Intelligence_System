@@ -3,6 +3,7 @@ from src_code.utils.db import Base, engine
 from src_code.vehicles.router import vehicle_routes
 from src_code.vehicles.models import VehicleModel
 from src_code.ev_data.router import ev_data_routes
+from src_code.users.router import user_routes
 
 
 print(Base.metadata.tables.keys())
@@ -12,3 +13,4 @@ app = FastAPI(title = "EV Intelligent Systems Platform")
 
 app.include_router(vehicle_routes)
 app.include_router(ev_data_routes)
+app.include_router(user_routes)
