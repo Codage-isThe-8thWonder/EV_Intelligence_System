@@ -4,6 +4,8 @@ from src_code.utils.db import get_db
 from src_code.ev_data.dtos import EVDataSchema, EVDataResponseSchema
 from src_code.ev_data import controller
 
+from fastapi import UploadFile, File
+
 
 ev_data_routes = APIRouter(prefix="/ev-data")
 
@@ -36,3 +38,12 @@ def get_ev_data_by_vehicle(vehicle_id: int,db: Session = Depends(get_db)):
         db
     )
 
+
+
+@ev_data_routes.post("/upload/{vehicle_id}")
+def upload_csv(vehicle_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
+    return controller.upload_csv(
+        vehicle_id,
+        file,
+        db
+    )
