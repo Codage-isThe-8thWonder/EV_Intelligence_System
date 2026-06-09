@@ -15,7 +15,18 @@ REQUIRED_COLUMNS = [
     "ambient_temperature",
     "load_weight",
     "driving_speed",
-    "distance_traveled"
+    "distance_traveled",
+    "motor_torque",
+    "motor_rpm",
+    "brake_pad_wear",
+    "brake_pressure",
+    "reg_brake_efficiency",
+    "tire_pressure",
+    "tire_temperature",
+    "suspension_load",
+    "ambient_humidity",
+    "idle_time",
+    "route_roughness"
 ]
 
 

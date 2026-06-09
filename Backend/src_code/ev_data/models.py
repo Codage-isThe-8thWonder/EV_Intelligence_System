@@ -43,3 +43,25 @@ class EVDataModel(Base):
     driving_speed = Column(Float, nullable=True)
 
     distance_traveled = Column(Float, nullable=True)
+
+    motor_torque = Column(Float, nullable=True)
+
+    motor_rpm = Column(Float, nullable=True)
+
+    brake_pad_wear = Column(Float, nullable=True)
+
+    brake_pressure = Column(Float, nullable=True)
+
+    reg_brake_efficiency = Column(Float, nullable=True)
+
+    tire_pressure = Column(Float, nullable=True)
+
+    tire_temperature = Column(Float, nullable=True)
+
+    suspension_load = Column(Float, nullable=True)
+
+    ambient_humidity = Column(Float, nullable=True)
+
+    idle_time = Column(Float, nullable=True)
+
+    route_roughness = Column(Float, nullable=True)

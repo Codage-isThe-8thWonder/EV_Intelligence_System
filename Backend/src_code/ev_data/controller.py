@@ -89,7 +89,25 @@ def upload_csv(vehicle_id,file,db):
 
                 driving_speed=row["driving_speed"],
 
-                distance_traveled=row["distance_traveled"]
+                distance_traveled=row["distance_traveled"],
+
+                motor_torque=row["motor_torque"],
+                motor_rpm=row["motor_rpm"],
+
+                brake_pad_wear=row["brake_pad_wear"],
+                brake_pressure=row["brake_pressure"],
+                reg_brake_efficiency=row["reg_brake_efficiency"],
+
+                tire_pressure=row["tire_pressure"],
+                tire_temperature=row["tire_temperature"],
+
+                suspension_load=row["suspension_load"],
+
+                ambient_humidity=row["ambient_humidity"],
+
+                idle_time=row["idle_time"],
+
+                route_roughness=row["route_roughness"]
             )
         )
 

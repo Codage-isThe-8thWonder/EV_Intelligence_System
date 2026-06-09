@@ -29,6 +29,24 @@ class EVDataSchema(BaseModel):
     driving_speed: float | None = None
     distance_traveled: float | None = None
 
+    motor_torque: float | None = None
+    motor_rpm: float | None = None
+
+    brake_pad_wear: float | None = None
+    brake_pressure: float | None = None
+    reg_brake_efficiency: float | None = None
+
+    tire_pressure: float | None = None
+    tire_temperature: float | None = None
+
+    suspension_load: float | None = None
+
+    ambient_humidity: float | None = None
+
+    idle_time: float | None = None
+
+    route_roughness: float | None = None
+
 
 
 class EVDataResponseSchema(BaseModel):
@@ -59,3 +77,21 @@ class EVDataResponseSchema(BaseModel):
 
     driving_speed: float | None = None
     distance_traveled: float | None = None
+
+    motor_torque: float | None = None
+    motor_rpm: float | None = None
+
+    brake_pad_wear: float | None = None
+    brake_pressure: float | None = None
+    reg_brake_efficiency: float | None = None
+
+    tire_pressure: float | None = None
+    tire_temperature: float | None = None
+
+    suspension_load: float | None = None
+
+    ambient_humidity: float | None = None
+
+    idle_time: float | None = None
+
+    route_roughness: float | None = None
