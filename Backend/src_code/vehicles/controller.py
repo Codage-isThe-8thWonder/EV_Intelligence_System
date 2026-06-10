@@ -8,7 +8,9 @@ def add_vehicle(body:VehicleSchema,db:Session):
     try:
         new_vehicle = VehicleModel(
             manufacturer=body.manufacturer,
-            model=body.model
+            model=body.model,
+            nickname=body.nickname,
+            battery_capacity=body.battery_capacity
         )
         db.add(new_vehicle)
         db.commit()

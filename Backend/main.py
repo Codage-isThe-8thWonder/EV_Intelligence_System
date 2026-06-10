@@ -5,6 +5,7 @@ from src_code.vehicles.models import VehicleModel
 from src_code.ev_data.router import ev_data_routes
 from src_code.users.router import user_routes
 from src_code.analytics.router import analytics_routes
+from src_code.predictions.router import prediction_routes
 
 print(Base.metadata.tables.keys())
 Base.metadata.create_all(engine)
@@ -15,3 +16,4 @@ app.include_router(vehicle_routes)
 app.include_router(ev_data_routes)
 app.include_router(user_routes)
 app.include_router(analytics_routes)
+app.include_router(prediction_routes)

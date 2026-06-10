@@ -46,6 +46,7 @@ class EVDataSchema(BaseModel):
     idle_time: float | None = None
 
     route_roughness: float | None = None
+    maintenance_type: int | None = None
 
 
 
@@ -95,3 +96,4 @@ class EVDataResponseSchema(BaseModel):
     idle_time: float | None = None
 
     route_roughness: float | None = None
+    maintenance_type: int | None = None

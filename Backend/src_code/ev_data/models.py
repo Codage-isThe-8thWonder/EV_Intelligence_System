@@ -65,3 +65,5 @@ class EVDataModel(Base):
     idle_time = Column(Float, nullable=True)
 
     route_roughness = Column(Float, nullable=True)
+
+    maintenance_type = Column(Integer, nullable=True)

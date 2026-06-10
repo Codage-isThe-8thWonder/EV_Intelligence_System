@@ -1,4 +1,4 @@
-from sqlalchemy import Column,Integer,String,ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from src_code.utils.db import Base
 
 class VehicleModel(Base):
@@ -6,5 +6,7 @@ class VehicleModel(Base):
 
     user_id = Column(Integer,ForeignKey("users.user_id" ,ondelete="CASCADE"), nullable=True)
     vehicle_id = Column(Integer,primary_key=True)
+    nickname = Column(String)
     manufacturer = Column(String)
     model = Column(String)
+    battery_capacity = Column(Float ,nullable=True)

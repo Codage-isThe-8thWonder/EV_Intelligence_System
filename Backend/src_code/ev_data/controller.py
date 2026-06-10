@@ -107,7 +107,9 @@ def upload_csv(vehicle_id,file,db):
 
                 idle_time=row["idle_time"],
 
-                route_roughness=row["route_roughness"]
+                route_roughness=row["route_roughness"],
+
+                mainentance_type=row["maintenance_type"]
             )
         )
 
