@@ -7,6 +7,7 @@ from src_code.users.router import user_routes
 from src_code.analytics.router import analytics_routes
 from src_code.predictions.router import prediction_routes
 from src_code.forecasting.router import forecast_routes
+from src_code.recommendations.router import recommendations_routes
 
 print(Base.metadata.tables.keys())
 Base.metadata.create_all(engine)
@@ -19,3 +20,4 @@ app.include_router(user_routes)
 app.include_router(analytics_routes)
 app.include_router(prediction_routes)
 app.include_router(forecast_routes)
+app.include_router(recommendations_routes)
