@@ -1,5 +1,8 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+
+from src_code.users.models import UserModel
+from src_code.vehicles.models import VehicleModel
 
 from src_code.ev_data.models import EVDataModel
 from src_code.ev_data.dtos import EVDataSchema
@@ -9,8 +12,45 @@ from src_code.ev_data.validators import CSVValidator
 from src_code.ev_data.repository import EVDataRepository
 
 
-def add_ev_data(body: EVDataSchema,db: Session):
-    new_data = EVDataModel(**body.model_dump())
+def get_user_vehicle(
+    vehicle_id: int,
+    db: Session,
+    user: UserModel
+):
+
+    vehicle = (
+        db.query(VehicleModel)
+        .filter(
+            VehicleModel.vehicle_id == vehicle_id,
+            VehicleModel.user_id == user.user_id
+        )
+        .first()
+    )
+
+    if vehicle is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Vehicle not found"
+        )
+
+    return vehicle
+
+
+def add_ev_data(
+    body: EVDataSchema,
+    db: Session,
+    user: UserModel
+):
+
+    get_user_vehicle(
+        body.vehicle_id,
+        db,
+        user
+    )
+
+    new_data = EVDataModel(
+        **body.model_dump()
+    )
 
     db.add(new_data)
     db.commit()
@@ -19,37 +59,95 @@ def add_ev_data(body: EVDataSchema,db: Session):
     return new_data
 
 
-def get_all_ev_data(db: Session):
+def get_all_ev_data(
+    db: Session,
+    user: UserModel
+):
 
-    return db.query(EVDataModel).all()
+    records = (
+        db.query(EVDataModel)
+        .join(
+            VehicleModel,
+            VehicleModel.vehicle_id == EVDataModel.vehicle_id
+        )
+        .filter(
+            VehicleModel.user_id == user.user_id
+        )
+        .all()
+    )
+
+    return records
 
 
-def get_ev_data_by_id(data_id: int,db: Session):
+def get_ev_data_by_id(
+    data_id: int,
+    db: Session,
+    user: UserModel
+):
 
-    record = db.query(EVDataModel).filter(EVDataModel.data_id == data_id).first()
-    if not record:
+    record = (
+        db.query(EVDataModel)
+        .join(
+            VehicleModel,
+            VehicleModel.vehicle_id == EVDataModel.vehicle_id
+        )
+        .filter(
+            EVDataModel.data_id == data_id,
+            VehicleModel.user_id == user.user_id
+        )
+        .first()
+    )
+
+    if record is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="EV data not found"
         )
 
     return record
 
 
-def get_ev_data_by_vehicle(vehicle_id: int,db: Session):
+def get_ev_data_by_vehicle(
+    vehicle_id: int,
+    db: Session,
+    user: UserModel
+):
 
-    records = db.query(EVDataModel).filter(EVDataModel.vehicle_id == vehicle_id).all()
+    get_user_vehicle(
+        vehicle_id,
+        db,
+        user
+    )
+
+    records = (
+        db.query(EVDataModel)
+        .filter(
+            EVDataModel.vehicle_id == vehicle_id
+        )
+        .all()
+    )
 
     return records
 
 
+def upload_csv(
+    vehicle_id: int,
+    file,
+    db: Session,
+    user: UserModel
+):
 
-
-def upload_csv(vehicle_id,file,db):
+    get_user_vehicle(
+        vehicle_id,
+        db,
+        user
+    )
 
     CSVValidator.validate_file(file)
 
-    df = CSVProcessor.read_csv(file.file)
+    df = CSVProcessor.read_csv(
+        file.file
+    )
 
     CSVValidator.validate_empty(df)
 
@@ -109,7 +207,7 @@ def upload_csv(vehicle_id,file,db):
 
                 route_roughness=row["route_roughness"],
 
-                mainentance_type=row["maintenance_type"]
+                maintenance_type=row["maintenance_type"]
             )
         )
 

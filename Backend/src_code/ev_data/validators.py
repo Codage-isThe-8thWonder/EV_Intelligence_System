@@ -1,4 +1,4 @@
-
+from fastapi import HTTPException
 
 
 REQUIRED_COLUMNS = [
@@ -26,7 +26,8 @@ REQUIRED_COLUMNS = [
     "suspension_load",
     "ambient_humidity",
     "idle_time",
-    "route_roughness"
+    "route_roughness",
+    "maintenance_type"
 ]
 
 
@@ -68,4 +69,7 @@ class CSVValidator:
     def validate_empty(df):
 
         if df.empty:
-            raise ValueError("CSV file is empty")
+            raise HTTPException(
+                status_code=400,
+                detail="Only CSV files are allowed"
+            )

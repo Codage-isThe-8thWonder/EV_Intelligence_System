@@ -6,7 +6,7 @@ class UserModel(Base):
     __tablename__ = "users"
 
     user_id = Column(Integer,primary_key=True,autoincrement=True)
-    mobile_number = Column(String)
-    username = Column(String,nullable=False)
+    mobile_number = Column(String,unique=True, nullable=False)
+    username = Column(String,unique=True,nullable=False)
     email = Column(String,unique=True,nullable=False)
     hash_password = Column(String,nullable=False)
