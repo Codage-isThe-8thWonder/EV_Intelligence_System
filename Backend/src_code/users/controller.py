@@ -1,10 +1,11 @@
-from fastapi import HTTPException, Request
+from fastapi import HTTPException, Request, Depends
 from sqlalchemy import or_ 
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from src_code.users.dtos import UserSchema, LoginSchema
 from src_code.users.models import UserModel
 from src_code.utils.settings import settings
+from src_code.utils.db import get_db
 from pwdlib import PasswordHash
 from jwt.exceptions import InvalidTokenError
 import jwt
@@ -74,7 +75,7 @@ def login_user(body:LoginSchema, db:Session):
 
 
 
-def is_authenticated(request:Request, db:Session):
+def is_authenticated(request:Request, db:Session= Depends(get_db)):
     
     try:
         token = request.headers.get("Authorization")

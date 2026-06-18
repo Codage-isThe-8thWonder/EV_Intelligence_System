@@ -1,0 +1,71 @@
+import requests
+
+BASE_URL = "http://127.0.0.1:8000"
+
+
+def get_summary_card(
+    vehicle_id: int,
+    token: str
+):
+
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+
+    response = requests.get(
+        f"{BASE_URL}/analytics/summary_card/{vehicle_id}",
+        headers=headers
+    )
+
+    return response
+
+
+def get_operational_trends(
+    vehicle_id: int,
+    token: str
+):
+
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+
+    response = requests.get(
+        f"{BASE_URL}/analytics/trends/{vehicle_id}",
+        headers=headers
+    )
+
+    return response
+
+
+def get_battery_analytics(
+    vehicle_id: int,
+    token: str
+):
+
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+
+    response = requests.get(
+        f"{BASE_URL}/analytics/battery-analytics/{vehicle_id}",
+        headers=headers
+    )
+
+    return response
+
+
+def get_vehicle_performance(
+    vehicle_id: int,
+    token: str
+):
+
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+
+    response = requests.get(
+        f"{BASE_URL}/analytics/vehicle-performance/{vehicle_id}",
+        headers=headers
+    )
+
+    return response
