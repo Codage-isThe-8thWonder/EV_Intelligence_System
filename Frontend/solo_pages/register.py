@@ -42,7 +42,7 @@ def show_register_page():
                 font-size:18px;
                 margin-bottom:5px;
             '>
-                AI Powered EV Intelligence Platform
+                EV Intelligence and Predictive Analytics Platform
             </p>
             """,
             unsafe_allow_html=True

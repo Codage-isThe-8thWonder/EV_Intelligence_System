@@ -1,8 +1,5 @@
 import streamlit as st
-
-from services.recommendations_service import (
-    get_recommendations
-)
+from services.recommendations_service import get_recommendations
 
 
 def show_recommendations_page():

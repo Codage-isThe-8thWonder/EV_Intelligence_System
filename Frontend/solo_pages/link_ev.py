@@ -5,52 +5,48 @@ from services.vehicle_service import (
     get_all_vehicles
 )
 
-from services.csv_service import upload_csv
+from services.csv_service import (
+    upload_csv
+)
 
 
 def show_linkEV_page():
 
-    st.title("⚡ My Vehicles")
+    st.title("⚡ Link Your EV")
 
     token = st.session_state.get("token")
 
     if not token:
-        st.error("Please login first")
+
+        st.error(
+            "Please login first."
+        )
+
         return
+
+    # --------------------------------------------------
+    # Fetch Vehicles
+    # --------------------------------------------------
 
     response = get_all_vehicles(token)
 
-    vehicles = []
+    if response.status_code != 200:
 
-    if response.status_code == 200:
+        st.error(
+            "Unable to fetch vehicles."
+        )
 
-        vehicles = response.json()
+        return
 
-        if len(vehicles) > 0:
-
-            st.subheader("Linked Vehicles")
-
-            for vehicle in vehicles:
-
-                st.info(
-                    f"""
-Manufacturer : {vehicle['manufacturer']}
-
-Model : {vehicle['model']}
-
-Nickname : {vehicle['nickname']}
-
-Battery Capacity : {vehicle['battery_capacity']}
-"""
-                )
-
-    st.divider()
+    vehicles = response.json()
 
     # --------------------------------------------------
     # Add Vehicle Section
     # --------------------------------------------------
 
-    st.subheader("Add New Vehicle")
+    st.subheader(
+        "🚗 Add Your Vehicle"
+    )
 
     with st.form("vehicle_form"):
 
@@ -94,7 +90,7 @@ Battery Capacity : {vehicle['battery_capacity']}
             if response.status_code == 201:
 
                 st.success(
-                    "Vehicle Added Successfully"
+                    "Vehicle Added Successfully."
                 )
 
                 st.rerun()
@@ -108,26 +104,13 @@ Battery Capacity : {vehicle['battery_capacity']}
     st.divider()
 
     # --------------------------------------------------
-    # CSV Upload Section
+    # Optional CSV Upload
     # --------------------------------------------------
 
     if len(vehicles) > 0:
 
-        st.subheader("Upload EV Dataset")
-
-        vehicle_options = {
-            f"{vehicle['manufacturer']} - {vehicle['model']}":
-            vehicle["vehicle_id"]
-            for vehicle in vehicles
-        }
-
-        selected_vehicle = st.selectbox(
-            "Select Vehicle",
-            options=list(vehicle_options.keys())
-        )
-
-        st.session_state["current_vehicle_id"] = (
-        vehicle_options[selected_vehicle]
+        st.subheader(
+            "📁 Upload Your EV Dataset"
         )
 
         uploaded_file = st.file_uploader(
@@ -143,13 +126,13 @@ Battery Capacity : {vehicle['battery_capacity']}
             if uploaded_file is None:
 
                 st.error(
-                    "Please select a CSV file"
+                    "Please select a CSV file."
                 )
 
             else:
 
-                vehicle_id = vehicle_options[
-                    selected_vehicle
+                vehicle_id = vehicles[0][
+                    "vehicle_id"
                 ]
 
                 response = upload_csv(
@@ -161,7 +144,7 @@ Battery Capacity : {vehicle['battery_capacity']}
                 if response.status_code == 201:
 
                     st.success(
-                        "CSV Uploaded Successfully"
+                        "CSV Uploaded Successfully."
                     )
 
                 else:
@@ -173,16 +156,34 @@ Battery Capacity : {vehicle['battery_capacity']}
     st.divider()
 
     # --------------------------------------------------
-    # Dashboard Navigation
+    # Continue To Dashboard
     # --------------------------------------------------
 
-    if len(vehicles) > 0:
+    if len(vehicles) == 0:
+
+        st.warning(
+            "Please add at least one vehicle to continue."
+        )
+
+    else:
+
+        st.success(
+            "Vehicle linked successfully. You can continue to the dashboard."
+        )
 
         if st.button(
             "Continue To Dashboard",
             use_container_width=True
         ):
 
-            st.session_state["authenticated"] = True
+            st.session_state[
+                "current_vehicle_id"
+            ] = vehicles[0][
+                "vehicle_id"
+            ]
+
+            st.session_state[
+                "authenticated"
+            ] = True
 
             st.rerun()

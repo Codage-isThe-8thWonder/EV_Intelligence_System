@@ -65,13 +65,13 @@ def show_manage_vehicles_page():
 
                 st.info(
                     f"""
-Manufacturer : {vehicle['manufacturer']}
+                    Nickname : {vehicle['nickname']}
 
-Model : {vehicle['model']}
+                    Manufacturer : {vehicle['manufacturer']}
 
-Nickname : {vehicle['nickname']}
+                    Model : {vehicle['model']}
 
-Battery Capacity : {vehicle['battery_capacity']} kWh
+                    Battery Capacity : {vehicle['battery_capacity']} kWh
                     """
                 )
 
@@ -112,7 +112,7 @@ Battery Capacity : {vehicle['battery_capacity']} kWh
 
         vehicle_options = {
 
-            f"{v['manufacturer']} - {v['model']}":
+            f"{v['nickname']} - {v['manufacturer']} - {v['model']}":
             v["vehicle_id"]
 
             for v in vehicles

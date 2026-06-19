@@ -1,42 +1,23 @@
 import streamlit as st
 
-from services.vehicle_service import (
-    get_vehicle_by_id
-)
+from services.vehicle_service import get_vehicle_by_id
+from services.analytics_service import get_summary_card
+from services.recommendations_service import get_recommendations
 
-from services.analytics_service import (
-    get_summary_card
-)
-
-from services.recommendations_service import (
-    get_recommendations
-)
 
 
 def show_dashboard_page():
 
-    token = st.session_state.get(
-        "token"
-    )
+    token = st.session_state.get("token")
 
-    vehicle_id = st.session_state.get(
-        "current_vehicle_id"
-    )
+    vehicle_id = st.session_state.get("current_vehicle_id")
 
     if not token:
-
-        st.error(
-            "Please login first."
-        )
-
+        st.error("Please login first.")
         return
 
     if vehicle_id is None:
-
-        st.warning(
-            "Please select a vehicle first."
-        )
-
+        st.warning("Please select a vehicle first.")
         return
 
     vehicle_response = get_vehicle_by_id(
@@ -77,15 +58,10 @@ def show_dashboard_page():
     recommendations = []
 
     if recommendation_response.status_code == 200:
+        recommendations = recommendation_response.json()["recommendations"]
 
-        recommendations = (
-            recommendation_response
-            .json()["recommendations"]
-        )
 
-    st.title(
-        "⚡ EV Pulse Dashboard"
-    )
+    st.title("⚡ EV Pulse Dashboard")
 
     st.divider()
 
@@ -103,22 +79,20 @@ def show_dashboard_page():
 
         st.info(
             f"""
-Manufacturer : {vehicle['manufacturer']}
+            Nickname : {vehicle['nickname']}
 
-Model : {vehicle['model']}
-
-Nickname : {vehicle['nickname']}
-"""
+            Battery Capacity : {vehicle['battery_capacity']} kWh
+            """
         )
 
     with col2:
 
         st.info(
             f"""
-Battery Capacity : {vehicle['battery_capacity']} kWh
+            Manufacturer : {vehicle['manufacturer']}
 
-Vehicle ID : {vehicle['vehicle_id']}
-"""
+            Model : {vehicle['model']}
+        """
         )
 
     st.divider()
@@ -178,12 +152,8 @@ Vehicle ID : {vehicle['vehicle_id']}
 
             critical_found = True
 
-            st.error(
-                item["message"]
-            )
+            st.error(item["message"])
 
     if not critical_found:
 
-        st.success(
-            "No critical issues detected."
-        )
+        st.success("No critical issues detected.")

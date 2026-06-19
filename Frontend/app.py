@@ -1,8 +1,8 @@
 import streamlit as st
 
-from solo_views.login import show_login_page
-from solo_views.register import show_register_page
-from solo_views.link_ev import show_linkEV_page
+from solo_pages.login import show_login_page
+from solo_pages.register import show_register_page
+from solo_pages.link_ev import show_linkEV_page
 from services.vehicle_service import get_all_vehicles
 from app_pages.predictions import show_predictions_page
 from app_pages.forecasting import show_forecasting_page
@@ -56,9 +56,7 @@ else:
 
     token = st.session_state["token"]
 
-    vehicle_response = get_all_vehicles(
-        token
-    )
+    vehicle_response = get_all_vehicles(token)
 
     vehicles = vehicle_response.json()
 
@@ -109,5 +107,5 @@ else:
     else:
         st.title(selected_page)
         st.info(
-            f"{selected_page} page coming soon."
+            f"{selected_page} page will come soon, Not launched yet."
         )

@@ -1,9 +1,5 @@
 import streamlit as st
-
-from services.predictions_service import (
-    get_predictions
-)
-
+from services.predictions_service import get_predictions
 
 def show_predictions_page():
 
@@ -93,64 +89,4 @@ def show_predictions_page():
         st.metric(
             "Estimated Charging Time",
             f"{prediction['estimated_charging_time']:.2f} hrs"
-        )
-
-    st.divider()
-
-    # ----------------------------------
-    # Vehicle Health Status
-    # ----------------------------------
-
-    st.subheader(
-        "🚦 Vehicle Health Status"
-    )
-
-    health_score = (
-        prediction[
-            "component_health_score"
-        ]
-    )
-
-    failure_probability = (
-        prediction[
-            "failure_probability"
-        ]
-    )
-
-    rul = prediction["rul"]
-
-    if (
-        health_score < 50
-        or
-        failure_probability > 0.80
-        or
-        rul < 30
-    ):
-
-        st.error(
-            "Critical Condition Detected"
-        )
-
-    elif (
-        health_score < 70
-        or
-        failure_probability > 0.50
-        or
-        rul < 90
-    ):
-
-        st.warning(
-            "Vehicle Requires Attention"
-        )
-
-    elif health_score < 85:
-
-        st.info(
-            "Vehicle Operating Normally"
-        )
-
-    else:
-
-        st.success(
-            "Vehicle In Excellent Condition"
         )

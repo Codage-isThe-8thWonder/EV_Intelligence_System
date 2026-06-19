@@ -1,8 +1,5 @@
 import streamlit as st
-
-from services.forecasting_service import (
-    get_forecast
-)
+from services.forecasting_service import get_forecast
 
 
 def show_forecasting_page():
@@ -139,23 +136,23 @@ def show_forecasting_page():
     if soc_24 < 20:
 
         st.warning(
-            "Battery SoC may become critically low within 24 hours."
+            "SoC is forecasted to fall below 20% within 24 hours."
         )
 
     else:
 
         st.success(
-            "Battery SoC forecast appears healthy."
+            "SoC forecast remains within a healthy range."
         )
 
     if voltage_24 < 300:
 
         st.warning(
-            "Battery voltage forecast indicates possible degradation."
+            "Battery voltage is forecasted to drop below 300 V."
         )
 
     else:
 
         st.success(
-            "Battery voltage forecast appears stable."
+            "Battery voltage forecast remains stable."
         )

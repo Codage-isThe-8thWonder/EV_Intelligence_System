@@ -44,7 +44,7 @@ def show_login_page():
                 font-size:18px;
                 margin-bottom:5px;
             '>
-                AI Powered EV Intelligence Platform
+                EV Intelligence and Predictive Analytics Platform
             </p>
             """,
             unsafe_allow_html=True
@@ -57,7 +57,7 @@ def show_login_page():
                 color:#64748B;
                 font-size:15px;
             '>
-                Welcome back. Login to continue.
+                Welcome back..! Login to continue.
             </p>
             """,
             unsafe_allow_html=True
@@ -104,9 +104,7 @@ def show_login_page():
                         "password": password
                     }
 
-                    response = login_user(
-                        payload
-                    )
+                    response = login_user(payload)
 
                     if response.status_code == 200:
 
@@ -114,10 +112,8 @@ def show_login_page():
 
                         st.session_state["token"] = token
 
-                        vehicle_response = (
-                            get_all_vehicles(token)
-                        )
-
+                        vehicle_response = get_all_vehicles(token)
+                        
                         if vehicle_response.status_code != 200:
 
                             st.error(
@@ -126,9 +122,8 @@ def show_login_page():
 
                             return
 
-                        vehicles = (
-                            vehicle_response.json()
-                        )
+                        vehicles = vehicle_response.json()
+                        
 
                         # New User
                         if len(vehicles) == 0:
