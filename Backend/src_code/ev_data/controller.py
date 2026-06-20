@@ -130,6 +130,7 @@ def get_ev_data_by_vehicle(
     return records
 
 
+
 def upload_csv(
     vehicle_id: int,
     file,
@@ -143,78 +144,110 @@ def upload_csv(
         user
     )
 
-    CSVValidator.validate_file(file)
+    try:
 
-    df = CSVProcessor.read_csv(
-        file.file
-    )
+        CSVValidator.validate_file(file)
 
-    CSVValidator.validate_empty(df)
+        df = CSVProcessor.read_csv(
+            file.file
+        )
 
-    CSVValidator.validate_columns(df)
+        CSVValidator.validate_empty(df)
 
-    df = CSVProcessor.clean_data(df)
+        CSVValidator.validate_columns(df)
 
-    df = CSVProcessor.convert_types(df)
+        df = CSVProcessor.clean_data(df)
+
+        df = CSVProcessor.convert_types(df)
+
+    except ValueError as e:
+
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"CSV processing failed: {str(e)}"
+        )
 
     records = []
 
-    for _, row in df.iterrows():
+    try:
 
-        records.append(
-            EVDataModel(
-                vehicle_id=vehicle_id,
+        for _, row in df.iterrows():
 
-                timestamp=row["timestamp"],
+            records.append(
+                EVDataModel(
+                    vehicle_id=vehicle_id,
 
-                soc=row["soc"],
-                soh=row["soh"],
+                    timestamp=row["timestamp"],
 
-                battery_voltage=row["battery_voltage"],
-                battery_current=row["battery_current"],
-                battery_temperature=row["battery_temperature"],
+                    soc=row["soc"],
+                    soh=row["soh"],
 
-                charge_cycles=row["charge_cycles"],
+                    battery_voltage=row["battery_voltage"],
+                    battery_current=row["battery_current"],
+                    battery_temperature=row["battery_temperature"],
 
-                motor_temperature=row["motor_temperature"],
-                motor_vibration=row["motor_vibration"],
+                    charge_cycles=row["charge_cycles"],
 
-                power_consumption=row["power_consumption"],
+                    motor_temperature=row["motor_temperature"],
+                    motor_vibration=row["motor_vibration"],
 
-                ambient_temperature=row["ambient_temperature"],
+                    power_consumption=row["power_consumption"],
 
-                load_weight=row["load_weight"],
+                    ambient_temperature=row["ambient_temperature"],
 
-                driving_speed=row["driving_speed"],
+                    load_weight=row["load_weight"],
 
-                distance_traveled=row["distance_traveled"],
+                    driving_speed=row["driving_speed"],
 
-                motor_torque=row["motor_torque"],
-                motor_rpm=row["motor_rpm"],
+                    distance_traveled=row["distance_traveled"],
 
-                brake_pad_wear=row["brake_pad_wear"],
-                brake_pressure=row["brake_pressure"],
-                reg_brake_efficiency=row["reg_brake_efficiency"],
+                    motor_torque=row["motor_torque"],
+                    motor_rpm=row["motor_rpm"],
 
-                tire_pressure=row["tire_pressure"],
-                tire_temperature=row["tire_temperature"],
+                    brake_pad_wear=row["brake_pad_wear"],
+                    brake_pressure=row["brake_pressure"],
+                    reg_brake_efficiency=row["reg_brake_efficiency"],
 
-                suspension_load=row["suspension_load"],
+                    tire_pressure=row["tire_pressure"],
+                    tire_temperature=row["tire_temperature"],
 
-                ambient_humidity=row["ambient_humidity"],
+                    suspension_load=row["suspension_load"],
 
-                idle_time=row["idle_time"],
+                    ambient_humidity=row["ambient_humidity"],
 
-                route_roughness=row["route_roughness"],
+                    idle_time=row["idle_time"],
 
-                maintenance_type=row["maintenance_type"]
+                    route_roughness=row["route_roughness"],
+
+                    maintenance_type=row["maintenance_type"]
+                )
             )
+
+        EVDataRepository.bulk_insert(
+            db,
+            records
         )
 
-    EVDataRepository.bulk_insert(
-        db,
-        records
-    )
+    except KeyError as e:
+
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Missing required column: {str(e)}"
+        )
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Database insert failed: {str(e)}"
+        )
 
     return {
         "rows_inserted": len(records)
