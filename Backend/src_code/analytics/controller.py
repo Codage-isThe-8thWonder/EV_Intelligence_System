@@ -126,8 +126,7 @@ def get_operational_trends(
         )
         .order_by(
             EVDataModel.timestamp
-        )
-        .all()
+        ).limit(100)
     )
 
     if not records:
@@ -217,8 +216,7 @@ def get_battery_analytics(
         )
         .order_by(
             EVDataModel.timestamp
-        )
-        .all()
+        ).limit(100)
     )
 
     if not records:
@@ -297,8 +295,7 @@ def get_vehicle_performance(
         )
         .order_by(
             EVDataModel.timestamp
-        )
-        .all()
+        ).limit(100)
     )
 
     if not records:

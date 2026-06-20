@@ -114,62 +114,60 @@ def get_predictions(
         )
 
     df = pd.DataFrame([
-        {
-            "soc": r.soc,
-            "soh": r.soh,
+    {
+        "SoC": r.soc,
+        "SoH": r.soh,
 
-            "battery_voltage": r.battery_voltage,
-            "battery_current": r.battery_current,
-            "battery_temperature": r.battery_temperature,
+        "Battery_Voltage": r.battery_voltage,
+        "Battery_Current": r.battery_current,
+        "Battery_Temperature": r.battery_temperature,
 
-            "charge_cycles": r.charge_cycles,
+        "Charge_Cycles": r.charge_cycles,
 
-            "motor_temperature": r.motor_temperature,
-            "motor_vibration": r.motor_vibration,
+        "Motor_Temperature": r.motor_temperature,
+        "Motor_Vibration": r.motor_vibration,
 
-            "power_consumption": r.power_consumption,
+        "Motor_Torque": r.motor_torque,
+        "Motor_RPM": r.motor_rpm,
 
-            "ambient_temperature": r.ambient_temperature,
+        "Power_Consumption": r.power_consumption,
 
-            "load_weight": r.load_weight,
+        "Brake_Pad_Wear": r.brake_pad_wear,
+        "Brake_Pressure": r.brake_pressure,
+        "Reg_Brake_Efficiency": r.reg_brake_efficiency,
 
-            "driving_speed": r.driving_speed,
+        "Tire_Pressure": r.tire_pressure,
+        "Tire_Temperature": r.tire_temperature,
 
-            "distance_traveled": r.distance_traveled,
+        "Suspension_Load": r.suspension_load,
 
-            "motor_torque": r.motor_torque,
-            "motor_rpm": r.motor_rpm,
+        "Ambient_Temperature": r.ambient_temperature,
+        "Ambient_Humidity": r.ambient_humidity,
 
-            "brake_pad_wear": r.brake_pad_wear,
-            "brake_pressure": r.brake_pressure,
+        "Load_Weight": r.load_weight,
 
-            "reg_brake_efficiency": r.reg_brake_efficiency,
+        "Driving_Speed": r.driving_speed,
 
-            "tire_pressure": r.tire_pressure,
-            "tire_temperature": r.tire_temperature,
+        "Distance_Traveled": r.distance_traveled,
 
-            "suspension_load": r.suspension_load,
+        "Idle_Time": r.idle_time,
 
-            "ambient_humidity": r.ambient_humidity,
+        "Route_Roughness": r.route_roughness,
 
-            "idle_time": r.idle_time,
+        "Maintenance_Type": r.maintenance_type
+    }
 
-            "route_roughness": r.route_roughness,
-
-            "maintenance_type": r.maintenance_type
-        }
-
-        for r in records
+    for r in records
     ])
 
     feature_df = pd.DataFrame(
         [df.mean()]
     )
 
-    soc = feature_df["soc"].iloc[0]
+    soc = feature_df["SoC"].iloc[0]
 
     power_consumption = (
-        feature_df["power_consumption"]
+        feature_df["Power_Consumption"]
         .iloc[0]
     )
 
