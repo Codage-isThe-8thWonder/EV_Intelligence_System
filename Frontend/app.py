@@ -107,5 +107,5 @@ else:
     else:
         st.title(selected_page)
         st.info(
-            f"{selected_page} page will come soon, Not launched yet."
+            f"{selected_page} page will come soon, Not Made yet."
         )

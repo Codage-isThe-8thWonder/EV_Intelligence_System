@@ -72,7 +72,7 @@ def show_predictions_page():
 
         st.metric(
             "Health Score",
-            f"{prediction['component_health_score']:.2f}"
+            f"{prediction['component_health_score']*100:.2f}%"
         )
 
     col4, col5 = st.columns(2)

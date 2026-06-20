@@ -111,7 +111,7 @@ def show_dashboard_page():
 
         st.metric(
             "Average SoC",
-            f"{summary['avg_soc']:.2f}%"
+            f"{summary['avg_soc']*100:.2f}%"
             if summary["avg_soc"] is not None
             else "-"
         )
