@@ -76,7 +76,7 @@ def show_manage_vehicles_page():
                 )
 
                 if st.button(
-                    f"Delete Vehicle {vehicle['vehicle_id']}"
+                    f"Delete {vehicle['nickname']}"
                 ):
 
                     delete_response = delete_vehicle(

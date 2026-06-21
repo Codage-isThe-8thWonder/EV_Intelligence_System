@@ -75,31 +75,33 @@ def show_linkEV_page():
 
         if add_btn:
 
-            payload = {
-                "manufacturer": manufacturer,
-                "model": model,
-                "nickname": nickname,
-                "battery_capacity": battery_capacity
-            }
+            with st.spinner("Adding Vehicle..."):
 
-            response = add_vehicle(
-                payload,
-                token
-            )
+                payload = {
+                    "manufacturer": manufacturer,
+                    "model": model,
+                    "nickname": nickname,
+                    "battery_capacity": battery_capacity
+                }
 
-            if response.status_code == 201:
-
-                st.success(
-                    "Vehicle Added Successfully."
+                response = add_vehicle(
+                    payload,
+                    token
                 )
 
-                st.rerun()
+                if response.status_code == 201:
 
-            else:
+                    st.success(
+                        "Vehicle Added Successfully."
+                    )
 
-                st.error(
-                    response.json()["detail"]
-                )
+                    st.rerun()
+
+                else:
+
+                    st.error(
+                        response.json()["detail"]
+                    )
 
     st.divider()
 
@@ -141,7 +143,7 @@ def show_linkEV_page():
                     token
                 )
 
-                if response.status_code == 201:
+                if response.status_code == 200:
 
                     st.success(
                         "CSV Uploaded Successfully."
