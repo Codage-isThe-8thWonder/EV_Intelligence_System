@@ -3,6 +3,7 @@ from src_code.utils.settings import settings
 from src_code.users.models import UserModel
 from src_code.vehicles.models import VehicleModel
 from src_code.ev_data.models import EVDataModel
+from src_code.app_settings.models import AppSettingsModel
 
 
 
