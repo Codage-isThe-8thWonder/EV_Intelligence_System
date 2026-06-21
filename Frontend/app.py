@@ -60,6 +60,21 @@ else:
 
     vehicles = vehicle_response.json()
 
+    vehicle_names = [
+        f"{vehicle['nickname']} ({vehicle['manufacturer']} {vehicle['model']})"
+        for vehicle in vehicles
+    ]
+
+    selected_vehicle = st.sidebar.selectbox(
+        "🚗 Select Vehicle",
+        options=range(len(vehicles)),
+        format_func=lambda x: vehicle_names[x]
+    )
+
+    st.session_state["current_vehicle_id"] = (
+        vehicles[selected_vehicle]["vehicle_id"]
+    )
+
     if len(vehicles) == 0:
         st.session_state["page"] = "linkEV"
         st.session_state["authenticated"] = False
