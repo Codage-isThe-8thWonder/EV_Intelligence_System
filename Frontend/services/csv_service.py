@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://backend:8000"
+from utils.baseURL_config import BASE_URL
 
 
 def upload_csv(

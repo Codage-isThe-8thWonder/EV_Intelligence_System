@@ -1,6 +1,7 @@
 import requests
+from utils.baseURL_config import BASE_URL
 
-BASE_URL = "http://backend:8000"
+# BASE_URL = "http://backend:8000"    ----   For docker-Compose running changed the URL
 
 
 def get_summary_card(
