@@ -124,13 +124,21 @@ By combining data analytics with machine learning, EV Pulse helps identify poten
 
 ---
 
+## ⚠️ Project Limitations
+
+- Machine learning models are trained on publicly available Synthetic EV datasets and synthetic data generated for demonstration purposes.
+- Prediction accuracy is dependent on dataset quality and may not fully represent real-world EV operating conditions, So models accuracy is limited
+- The platform currently operates on uploaded telemetry data rather than live vehicle sensor streams.
+
+---
+
 ## 🔮 Future Improvements
 
 - Settings and more necessary Modules to be added
 - Live EV Telemetry Streaming using MQTT 
 - Fleet Management Dashboard
 - Deep Learning-Based Predictive Models
-- Mobile Application Support
+- Implement model based Recommendation Engine
 - Advanced Battery Degradation Analytics
 
 ---
